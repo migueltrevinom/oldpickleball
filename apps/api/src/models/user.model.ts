@@ -13,6 +13,14 @@ export interface IUserDocument extends Document {
     expiresAt: Date;
     attempts: number;
   };
+  pendingEmail?: {
+    email: string;
+    otp: {
+      code: string;
+      expiresAt: Date;
+      attempts: number;
+    };
+  };
   isOnboarded: boolean;
   profile: {
     firstName?: string;
@@ -90,6 +98,14 @@ const userSchema = new Schema<IUserDocument>({
     expiresAt: Date,
     attempts: { type: Number, default: 0 },
   },
+  pendingEmail: {
+    email: { type: String, lowercase: true, trim: true },
+    otp: {
+      code: String,
+      expiresAt: Date,
+      attempts: { type: Number, default: 0 },
+    },
+  },
   isOnboarded: { type: Boolean, default: false },
   profile: {
     firstName: { type: String, trim: true },
@@ -144,7 +160,7 @@ userSchema.index({ 'skill.duprRating': 1 });
 
 userSchema.set('toJSON', {
   transform(_doc, ret) {
-    const { otp, refreshTokens, __v, ...rest } = ret;
+    const { otp, pendingEmail, refreshTokens, __v, ...rest } = ret;
     return rest;
   },
 });

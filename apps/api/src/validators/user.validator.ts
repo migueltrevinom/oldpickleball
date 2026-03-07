@@ -27,4 +27,14 @@ export const updateProfileSchema = z.object({
   }).optional(),
 });
 
+export const changeEmailSchema = z.object({
+  newEmail: z.string().email('Please enter a valid email address'),
+});
+
+export const verifyEmailChangeSchema = z.object({
+  code: z.string().length(6, 'Code must be 6 digits').regex(/^\d{6}$/, 'Code must be 6 digits'),
+});
+
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+export type ChangeEmailInput = z.infer<typeof changeEmailSchema>;
+export type VerifyEmailChangeInput = z.infer<typeof verifyEmailChangeSchema>;

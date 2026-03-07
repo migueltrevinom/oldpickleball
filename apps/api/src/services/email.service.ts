@@ -76,4 +76,31 @@ export class EmailService {
     const html = await renderTemplate('welcome', { firstName });
     return sendEmail(to, 'Welcome to OldPickleball! 🏓', html);
   }
+
+  static async sendEmailChangeVerification(
+    newEmail: string,
+    otpCode: string,
+    currentEmail: string,
+  ): Promise<boolean> {
+    const html = await renderTemplate('email-change-verify', {
+      otpCode,
+      currentEmail,
+      expiryMinutes: env.OTP_EXPIRY_MINUTES,
+    });
+    return sendEmail(newEmail, 'Verify your new OldPickleball email', html);
+  }
+
+  static async sendEmailChangedNotice(
+    oldEmail: string,
+    newEmail: string,
+    displayName: string,
+  ): Promise<boolean> {
+    const html = await renderTemplate('email-changed-notice', {
+      oldEmail,
+      newEmail,
+      displayName,
+      changedAt: new Date().toUTCString(),
+    });
+    return sendEmail(oldEmail, 'Your OldPickleball email has been changed', html);
+  }
 }

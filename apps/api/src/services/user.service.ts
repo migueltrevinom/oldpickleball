@@ -1,5 +1,8 @@
+import crypto from 'crypto';
 import { User } from '../models/user.model.js';
-import { NotFoundError, AppError } from '../utils/errors.js';
+import { NotFoundError, AppError, ConflictError } from '../utils/errors.js';
+import { EmailService } from './email.service.js';
+import { env } from '../config/env.js';
 import type { UpdateProfileInput } from '../validators/user.validator.js';
 import type { OnboardInput } from '../validators/auth.validator.js';
 
@@ -80,6 +83,89 @@ export class UserService {
 
     const user = await User.findByIdAndUpdate(userId, { $set: update }, { new: true });
     if (!user) throw new NotFoundError('User');
+    return user.toJSON();
+  }
+
+  /**
+   * Step 1: Request email change → OTP sent to NEW email
+   */
+  static async requestEmailChange(userId: string, newEmail: string) {
+    const normalizedEmail = newEmail.toLowerCase().trim();
+    const user = await User.findById(userId);
+    if (!user) throw new NotFoundError('User');
+
+    if (user.email === normalizedEmail) {
+      throw new AppError(400, 'New email is the same as your current email', 'SAME_EMAIL');
+    }
+
+    const existingUser = await User.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      throw new ConflictError('This email is already associated with another account');
+    }
+
+    const otpCode = crypto.randomInt(100000, 999999).toString();
+    const expiresAt = new Date(Date.now() + env.OTP_EXPIRY_MINUTES * 60 * 1000);
+
+    user.pendingEmail = {
+      email: normalizedEmail,
+      otp: { code: otpCode, expiresAt, attempts: 0 },
+    };
+    await user.save();
+
+    await EmailService.sendEmailChangeVerification(normalizedEmail, otpCode, user.email);
+
+    return { message: 'Verification code sent to your new email address' };
+  }
+
+  /**
+   * Step 2: Verify OTP sent to new email → swap emails
+   */
+  static async verifyEmailChange(userId: string, code: string) {
+    const user = await User.findById(userId);
+    if (!user) throw new NotFoundError('User');
+
+    if (!user.pendingEmail?.otp?.code) {
+      throw new AppError(400, 'No pending email change. Please request one first.', 'NO_PENDING_CHANGE');
+    }
+
+    const pending = user.pendingEmail;
+
+    if (pending.otp.attempts >= 5) {
+      user.pendingEmail = undefined;
+      await user.save();
+      throw new AppError(429, 'Too many attempts. Please request a new code.', 'TOO_MANY_ATTEMPTS');
+    }
+
+    if (pending.otp.expiresAt < new Date()) {
+      user.pendingEmail = undefined;
+      await user.save();
+      throw new AppError(400, 'Code has expired. Please request a new one.', 'OTP_EXPIRED');
+    }
+
+    if (pending.otp.code !== code) {
+      pending.otp.attempts += 1;
+      await user.save();
+      const remaining = 5 - pending.otp.attempts;
+      throw new AppError(400, `Invalid code. ${remaining} attempt${remaining !== 1 ? 's' : ''} remaining.`, 'INVALID_OTP');
+    }
+
+    const takenCheck = await User.findOne({ email: pending.email });
+    if (takenCheck) {
+      user.pendingEmail = undefined;
+      await user.save();
+      throw new ConflictError('This email was claimed by another account while your change was pending');
+    }
+
+    const oldEmail = user.email;
+    const newEmail = pending.email;
+    const displayName = user.profile.displayName || user.profile.firstName || 'Player';
+
+    user.email = newEmail;
+    user.pendingEmail = undefined;
+    await user.save();
+
+    await EmailService.sendEmailChangedNotice(oldEmail, newEmail, displayName);
+
     return user.toJSON();
   }
 
