@@ -1,0 +1,27 @@
+{
+  "name": "oldpickleball",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pickleball super app",
+  "scripts": {
+    "dev": "pnpm --parallel -r run dev",
+    "dev:api": "pnpm --filter @oldpickleball/api dev",
+    "dev:web": "pnpm --filter @oldpickleball/web dev",
+    "dev:landing": "pnpm --filter @oldpickleball/landing dev",
+    "build": "pnpm -r run build",
+    "build:shared": "pnpm --filter @oldpickleball/shared build",
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test",
+    "clean": "pnpm -r run clean"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"],
+    "overrides": {
+      "is-generator-function": "1.0.10"
+    }
+  }
+}
