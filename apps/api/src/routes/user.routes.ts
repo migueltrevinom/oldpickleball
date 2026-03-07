@@ -6,6 +6,7 @@ import { updateProfileSchema } from '../validators/user.validator.js';
 
 const router = new Router({ prefix: '/users' });
 
+// ── All user routes are protected ───────────────────────────────────────────
 router.get('/me', authenticate, UserController.getMe);
 router.patch('/me', authenticate, validate({ body: updateProfileSchema }), UserController.updateMe);
 router.get('/nearby', authenticate, UserController.getNearby);

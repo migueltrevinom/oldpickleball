@@ -4,6 +4,7 @@ import { authenticate } from '../middleware/auth.js';
 
 const router = new Router({ prefix: '/notifications' });
 
+// ── All notification routes are protected ───────────────────────────────────
 router.get('/', authenticate, NotificationController.list);
 router.patch('/:id/read', authenticate, NotificationController.markAsRead);
 router.post('/read-all', authenticate, NotificationController.markAllRead);

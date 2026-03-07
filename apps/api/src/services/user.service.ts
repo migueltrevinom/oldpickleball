@@ -1,11 +1,40 @@
 import { User } from '../models/user.model.js';
-import { NotFoundError } from '../utils/errors.js';
+import { NotFoundError, AppError } from '../utils/errors.js';
 import type { UpdateProfileInput } from '../validators/user.validator.js';
+import type { OnboardInput } from '../validators/auth.validator.js';
 
 export class UserService {
   static async getById(userId: string) {
     const user = await User.findById(userId);
     if (!user) throw new NotFoundError('User');
+    return user.toJSON();
+  }
+
+  static async onboard(userId: string, input: OnboardInput) {
+    const user = await User.findById(userId);
+    if (!user) throw new NotFoundError('User');
+    if (user.isOnboarded) {
+      throw new AppError(400, 'Profile already completed', 'ALREADY_ONBOARDED');
+    }
+
+    user.profile.firstName = input.firstName;
+    user.profile.lastName = input.lastName;
+    user.profile.displayName = `${input.firstName} ${input.lastName.charAt(0)}.`;
+    if (input.phone) user.phone = input.phone;
+    if (input.skillLevel !== undefined) user.skill.selfRated = input.skillLevel;
+    if (input.preferredFormats) user.skill.preferredFormats = input.preferredFormats;
+    if (input.location) {
+      user.profile.location = {
+        type: 'Point',
+        coordinates: input.location.coordinates,
+        city: input.location.city,
+        state: input.location.state,
+        zip: input.location.zip,
+      };
+    }
+
+    user.isOnboarded = true;
+    await user.save();
     return user.toJSON();
   }
 

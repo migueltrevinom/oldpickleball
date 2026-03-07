@@ -6,15 +6,20 @@ import {
 export interface IUserDocument extends Document {
   _id: Types.ObjectId;
   email: string;
-  passwordHash: string;
+  phone?: string;
   role: typeof USER_ROLES[number];
+  otp?: {
+    code: string;
+    expiresAt: Date;
+    attempts: number;
+  };
+  isOnboarded: boolean;
   profile: {
-    firstName: string;
-    lastName: string;
-    displayName: string;
+    firstName?: string;
+    lastName?: string;
+    displayName?: string;
     avatar?: string;
     bio?: string;
-    phone?: string;
     location?: {
       type: 'Point';
       coordinates: [number, number];
@@ -78,15 +83,20 @@ const userSchema = new Schema<IUserDocument>({
     lowercase: true,
     trim: true,
   },
-  passwordHash: { type: String, required: true },
+  phone: { type: String, trim: true },
   role: { type: String, enum: USER_ROLES, default: 'player' },
+  otp: {
+    code: String,
+    expiresAt: Date,
+    attempts: { type: Number, default: 0 },
+  },
+  isOnboarded: { type: Boolean, default: false },
   profile: {
-    firstName: { type: String, required: true, trim: true },
-    lastName: { type: String, required: true, trim: true },
+    firstName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
     displayName: { type: String, trim: true },
     avatar: String,
     bio: { type: String, maxlength: 500 },
-    phone: String,
     location: locationSchema,
   },
   skill: {
@@ -128,20 +138,13 @@ const userSchema = new Schema<IUserDocument>({
   timestamps: true,
 });
 
-userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ 'profile.location': '2dsphere' });
 userSchema.index({ 'skill.selfRated': 1 });
 userSchema.index({ 'skill.duprRating': 1 });
 
-userSchema.pre('save', function () {
-  if (!this.profile.displayName) {
-    this.profile.displayName = `${this.profile.firstName} ${this.profile.lastName.charAt(0)}.`;
-  }
-});
-
 userSchema.set('toJSON', {
   transform(_doc, ret) {
-    const { passwordHash, refreshTokens, __v, ...rest } = ret;
+    const { otp, refreshTokens, __v, ...rest } = ret;
     return rest;
   },
 });

@@ -1,70 +1,104 @@
-import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import { User } from '../models/user.model.js';
 import { generateAccessToken, generateRefreshToken, getRefreshTokenExpiry } from '../utils/token.js';
-import { AppError, ConflictError } from '../utils/errors.js';
-import type { RegisterInput, LoginInput } from '../validators/auth.validator.js';
+import { AppError } from '../utils/errors.js';
+import { EmailService } from './email.service.js';
+import { env } from '../config/env.js';
 
-const SALT_ROUNDS = 12;
+function generateOTP(): string {
+  return crypto.randomInt(100000, 999999).toString();
+}
 
 export class AuthService {
-  static async register(input: RegisterInput) {
-    const existing = await User.findOne({ email: input.email.toLowerCase() });
-    if (existing) {
-      throw new ConflictError('Email already registered');
+  /**
+   * Step 1: Request OTP
+   * - If user exists → send sign-in OTP
+   * - If user doesn't exist → create user, send welcome OTP
+   */
+  static async requestOTP(email: string) {
+    const normalizedEmail = email.toLowerCase().trim();
+    let user = await User.findOne({ email: normalizedEmail });
+    const isNewUser = !user;
+
+    if (!user) {
+      user = await User.create({ email: normalizedEmail });
     }
 
-    const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
+    if (!user.isActive) {
+      throw new AppError(403, 'Account is deactivated', 'ACCOUNT_DEACTIVATED');
+    }
 
-    const user = await User.create({
-      email: input.email.toLowerCase(),
-      passwordHash,
-      profile: {
-        firstName: input.firstName,
-        lastName: input.lastName,
-      },
-      skill: {
-        selfRated: input.skillLevel,
-        preferredFormats: input.preferredFormats || [],
-      },
-    });
+    const otpCode = generateOTP();
+    const expiresAt = new Date(Date.now() + env.OTP_EXPIRY_MINUTES * 60 * 1000);
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken();
-
-    user.refreshTokens.push({
-      token: refreshToken,
-      expiresAt: getRefreshTokenExpiry(),
-    });
+    user.otp = { code: otpCode, expiresAt, attempts: 0 };
     await user.save();
 
-    return { user: user.toJSON(), accessToken, refreshToken };
+    await EmailService.sendOTP(normalizedEmail, otpCode, isNewUser);
+
+    return {
+      message: 'Verification code sent to your email',
+      isNewUser,
+      email: normalizedEmail,
+    };
   }
 
-  static async login(input: LoginInput) {
-    const user = await User.findOne({ email: input.email.toLowerCase() });
-    if (!user || !user.isActive) {
-      throw new AppError(401, 'Invalid email or password', 'INVALID_CREDENTIALS');
+  /**
+   * Step 2: Verify OTP → issue tokens
+   */
+  static async verifyOTP(email: string, code: string) {
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user || !user.otp?.code) {
+      throw new AppError(400, 'No pending verification. Please request a new code.', 'NO_PENDING_OTP');
     }
 
-    const valid = await bcrypt.compare(input.password, user.passwordHash);
-    if (!valid) {
-      throw new AppError(401, 'Invalid email or password', 'INVALID_CREDENTIALS');
+    if (user.otp.attempts >= 5) {
+      user.otp = undefined;
+      await user.save();
+      throw new AppError(429, 'Too many attempts. Please request a new code.', 'TOO_MANY_ATTEMPTS');
     }
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken();
+    if (user.otp.expiresAt < new Date()) {
+      user.otp = undefined;
+      await user.save();
+      throw new AppError(400, 'Code has expired. Please request a new one.', 'OTP_EXPIRED');
+    }
+
+    if (user.otp.code !== code) {
+      user.otp.attempts += 1;
+      await user.save();
+      const remaining = 5 - user.otp.attempts;
+      throw new AppError(400, `Invalid code. ${remaining} attempt${remaining !== 1 ? 's' : ''} remaining.`, 'INVALID_OTP');
+    }
+
+    user.otp = undefined;
+    user.isVerified = true;
+    user.lastActiveAt = new Date();
 
     user.refreshTokens = user.refreshTokens.filter(rt => rt.expiresAt > new Date());
+    const refreshToken = generateRefreshToken();
     user.refreshTokens.push({
       token: refreshToken,
       expiresAt: getRefreshTokenExpiry(),
     });
-    user.lastActiveAt = new Date();
+
     await user.save();
 
-    return { user: user.toJSON(), accessToken, refreshToken };
+    const accessToken = generateAccessToken(user);
+
+    return {
+      user: user.toJSON(),
+      accessToken,
+      refreshToken,
+      isOnboarded: user.isOnboarded,
+    };
   }
 
+  /**
+   * Refresh access token using refresh token
+   */
   static async refresh(oldRefreshToken: string) {
     const user = await User.findOne({
       'refreshTokens.token': oldRefreshToken,
@@ -88,6 +122,9 @@ export class AuthService {
     return { accessToken, refreshToken: newRefreshToken };
   }
 
+  /**
+   * Logout — revoke refresh token
+   */
   static async logout(userId: string, refreshToken: string) {
     await User.updateOne(
       { _id: userId },

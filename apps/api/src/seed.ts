@@ -2,7 +2,6 @@ import { connectDatabase, disconnectDatabase } from './config/database.js';
 import { User } from './models/user.model.js';
 import { Court } from './models/court.model.js';
 import { Session } from './models/session.model.js';
-import bcrypt from 'bcryptjs';
 
 async function seed() {
   await connectDatabase();
@@ -12,32 +11,32 @@ async function seed() {
   await Court.deleteMany({});
   await Session.deleteMany({});
 
-  const passwordHash = await bcrypt.hash('password123', 12);
-
   const [alice, bob] = await User.create([
     {
       email: 'alice@example.com',
-      passwordHash,
       role: 'player',
+      isOnboarded: true,
+      isVerified: true,
       profile: {
         firstName: 'Alice',
         lastName: 'Johnson',
+        displayName: 'Alice J.',
         location: { type: 'Point', coordinates: [-75.270, 40.015], city: 'Philadelphia', state: 'PA', zip: '19103' },
       },
       skill: { selfRated: 3.5, preferredFormats: ['doubles', 'mixed'] },
-      isVerified: true,
     },
     {
       email: 'bob@example.com',
-      passwordHash,
       role: 'player',
+      isOnboarded: true,
+      isVerified: true,
       profile: {
         firstName: 'Bob',
         lastName: 'Smith',
+        displayName: 'Bob S.',
         location: { type: 'Point', coordinates: [-75.165, 39.952], city: 'Philadelphia', state: 'PA', zip: '19107' },
       },
       skill: { selfRated: 4.0, preferredFormats: ['singles', 'doubles'] },
-      isVerified: true,
     },
   ]);
 

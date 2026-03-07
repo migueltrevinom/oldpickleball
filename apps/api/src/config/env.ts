@@ -11,6 +11,10 @@ const envSchema = z.object({
   JWT_ACCESS_EXPIRY: z.string().default('15m'),
   JWT_REFRESH_EXPIRY: z.string().default('7d'),
   CORS_ORIGIN: z.string().default('http://localhost:4200'),
+  MAILGUN_API_KEY: z.string().default(''),
+  MAILGUN_PROXY_EMAIL: z.string().email().default('noreply@example.com'),
+  MAILGUN_DOMAIN: z.string().default(''),
+  OTP_EXPIRY_MINUTES: z.coerce.number().default(10),
 });
 
 const parsed = envSchema.safeParse(process.env);
