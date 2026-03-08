@@ -1,4 +1,7 @@
 export { User, type IUserDocument } from './user.model.js';
+export { SuperAdmin, type ISuperAdminDocument } from './super-admin.model.js';
+export { CourtAdmin, type ICourtAdminDocument } from './court-admin.model.js';
+export { CourtStaff, type ICourtStaffDocument } from './court-staff.model.js';
 export { Court, type ICourtDocument } from './court.model.js';
 export { Session, type ISessionDocument } from './session.model.js';
 export { Rsvp, type IRsvpDocument } from './rsvp.model.js';

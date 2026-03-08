@@ -1,14 +1,23 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { env } from '../config/env.js';
-import type { ITokenPayload } from '@oldpickleball/shared';
-import type { IUserDocument } from '../models/user.model.js';
+import type { ITokenPayload, SystemRole, RoleModel } from '@oldpickleball/shared';
 
-export function generateAccessToken(user: IUserDocument): string {
+interface TokenUser {
+  _id: { toString(): string };
+  email: string;
+  role: SystemRole;
+  roleModel: RoleModel;
+  isOnboarded: boolean;
+}
+
+export function generateAccessToken(user: TokenUser): string {
   const payload: Omit<ITokenPayload, 'iat' | 'exp'> = {
     sub: user._id.toString(),
     email: user.email,
     role: user.role,
+    roleModel: user.roleModel,
+    isOnboarded: user.isOnboarded,
   };
   return jwt.sign(payload, env.JWT_SECRET, {
     expiresIn: env.JWT_ACCESS_EXPIRY as string,

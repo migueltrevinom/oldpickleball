@@ -3,6 +3,9 @@ export const SKILL_MIN = 1.0;
 export const SKILL_MAX = 5.5;
 
 export const USER_ROLES = ['player', 'coach', 'venue_owner', 'admin'] as const;
+export const SYSTEM_ROLES = ['super_admin', 'court_admin', 'court_staff', 'player'] as const;
+export const ROLE_MODELS = ['SuperAdmin', 'CourtAdmin', 'CourtStaff', 'User'] as const;
+export const STAFF_PERMISSIONS = ['view_bookings', 'check_in_players', 'manage_sessions', 'view_calendar'] as const;
 export const GAME_FORMATS = ['singles', 'doubles', 'mixed', 'any'] as const;
 export const SESSION_TYPES = ['open_play', 'round_robin', 'ladder', 'casual', 'drill', 'lesson', 'tournament'] as const;
 export const SESSION_STATUSES = ['draft', 'open', 'full', 'in_progress', 'completed', 'cancelled'] as const;

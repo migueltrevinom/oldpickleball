@@ -3,10 +3,14 @@ import type {
   RSVP_STATUSES, VISIBILITY_OPTIONS, PROFILE_VISIBILITY,
   SURFACE_TYPES, COURT_ENVIRONMENTS, ACCESS_TYPES, FEE_PERIODS,
   AMENITIES, CHAT_ROOM_TYPES, MESSAGE_TYPES, RATING_TAGS,
-  NOTIFICATION_TYPES, NOTIFICATION_CHANNELS, EDIT_STATUSES
+  NOTIFICATION_TYPES, NOTIFICATION_CHANNELS, EDIT_STATUSES,
+  SYSTEM_ROLES, ROLE_MODELS, STAFF_PERMISSIONS
 } from '../constants/index.js';
 
 export type UserRole = typeof USER_ROLES[number];
+export type SystemRole = typeof SYSTEM_ROLES[number];
+export type RoleModel = typeof ROLE_MODELS[number];
+export type StaffPermission = typeof STAFF_PERMISSIONS[number];
 export type GameFormat = typeof GAME_FORMATS[number];
 export type SessionType = typeof SESSION_TYPES[number];
 export type SessionStatus = typeof SESSION_STATUSES[number];
@@ -60,7 +64,9 @@ export interface IApiResponse<T = unknown> {
 export interface ITokenPayload {
   sub: string;
   email: string;
-  role: UserRole;
+  role: SystemRole;
+  roleModel: RoleModel;
+  isOnboarded: boolean;
   iat: number;
   exp: number;
 }

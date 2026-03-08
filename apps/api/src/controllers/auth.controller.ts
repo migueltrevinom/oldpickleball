@@ -36,6 +36,8 @@ export class AuthController {
       data: {
         user: result.user,
         accessToken: result.accessToken,
+        role: result.role,
+        roleModel: result.roleModel,
         isOnboarded: result.isOnboarded,
       },
     };
@@ -91,7 +93,8 @@ export class AuthController {
     const userId = ctx.state.user?.sub;
 
     if (userId && refreshToken) {
-      await AuthService.logout(userId, refreshToken);
+      const roleModel = ctx.state.user?.roleModel || 'User';
+      await AuthService.logout(userId, refreshToken, roleModel);
     }
 
     ctx.cookies.set('refreshToken', null);
