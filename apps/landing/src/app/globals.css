@@ -8,28 +8,28 @@
   }
 
   body {
-    @apply bg-white text-slate-900 antialiased;
+    @apply bg-white text-text-primary antialiased;
   }
 
   ::selection {
-    @apply bg-pickle-green/20 text-slate-900;
+    @apply bg-pickle-green/20 text-text-primary;
   }
 }
 
 @layer components {
-  .glass {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20;
-  }
-
-  .glass-dark {
-    @apply bg-black/20 backdrop-blur-xl border border-white/10;
-  }
-
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-pickle-green to-emerald-400;
   }
 
+  .gradient-btn {
+    @apply bg-gradient-to-r from-pickle-green to-emerald-500 text-white font-semibold rounded-xl shadow-md shadow-pickle-green/20 transition-all hover:shadow-lg hover:shadow-pickle-green/30 hover:scale-[1.02];
+  }
+
   .section-padding {
-    @apply py-16 md:py-24;
+    @apply py-20 md:py-32;
+  }
+
+  .badge-pill {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border;
   }
 }

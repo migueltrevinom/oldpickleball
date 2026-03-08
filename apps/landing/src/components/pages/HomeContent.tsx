@@ -6,6 +6,7 @@ import { Metrics } from "@/components/sections/Metrics";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { FeaturePreview } from "@/components/sections/FeaturePreview";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export default function HomeContent() {
@@ -17,6 +18,7 @@ export default function HomeContent() {
       <HowItWorks />
       <FeaturePreview />
       <Testimonials />
+      <FAQ />
       <FinalCTA />
     </>
   );

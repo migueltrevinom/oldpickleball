@@ -27,6 +27,16 @@ const config: Config = {
           light: "#f8fafc",
           muted: "#f1f5f9",
         },
+        warm: {
+          peach: "#FFF8F3",
+          "peach-light": "#FFF5F0",
+          "peach-deep": "#FFEDE3",
+        },
+        text: {
+          primary: "#1a1a1a",
+          secondary: "#666666",
+          muted: "#888888",
+        },
       },
       fontFamily: {
         heading: ["var(--font-space-grotesk)", "sans-serif"],
@@ -35,7 +45,7 @@ const config: Config = {
       },
       animation: {
         "pulse-soft": "pulse-soft 3s ease-in-out infinite",
-        "float": "float 6s ease-in-out infinite",
+        float: "float 6s ease-in-out infinite",
       },
       keyframes: {
         "pulse-soft": {

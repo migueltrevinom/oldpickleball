@@ -3,27 +3,29 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, Plus, Minus } from "lucide-react";
 import { PRICING_PLANS, FAQ } from "@/lib/constants";
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-slate-100 last:border-0">
+    <div className="border-b border-gray-100 last:border-0">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full py-5 flex items-center justify-between text-left group"
+        className="w-full py-6 flex items-center justify-between text-left group"
       >
-        <span className="font-heading font-semibold text-slate-900 group-hover:text-pickle-green transition-colors pr-4">
+        <span className="font-heading font-semibold text-text-primary text-lg pr-4 group-hover:text-pickle-green transition-colors">
           {question}
         </span>
-        <ChevronDown
-          size={20}
-          className={`text-slate-400 shrink-0 transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
-        />
+        {open ? (
+          <Minus size={20} className="text-pickle-green shrink-0" />
+        ) : (
+          <Plus
+            size={20}
+            className="text-text-muted shrink-0 group-hover:text-pickle-green transition-colors"
+          />
+        )}
       </button>
       <AnimatePresence>
         {open && (
@@ -34,7 +36,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <p className="pb-5 text-slate-500 leading-relaxed">{answer}</p>
+            <p className="pb-6 text-text-secondary leading-[1.7]">{answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -46,22 +48,22 @@ export default function PricingContent() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-slate-950 to-court-blue">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      <section className="pt-32 pb-20 bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-pickle-green font-mono text-sm tracking-widest uppercase mb-4">
+            <span className="badge-pill text-pickle-green border-pickle-green/20 bg-pickle-green/5 mb-4">
               Pricing
-            </p>
-            <h1 className="font-heading text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+            </span>
+            <h1 className="font-heading text-4xl md:text-6xl font-bold text-text-primary tracking-tight mb-6 mt-4">
               Simple pricing.
               <br />
               No surprises.
             </h1>
-            <p className="text-slate-300 text-lg">
+            <p className="text-text-secondary text-lg">
               Start free. Upgrade when you&apos;re ready.
             </p>
           </motion.div>
@@ -69,7 +71,7 @@ export default function PricingContent() {
       </section>
 
       {/* Pricing Cards */}
-      <section className="section-padding bg-surface-light">
+      <section className="section-padding bg-warm-peach-light">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             {PRICING_PLANS.map((plan, i) => (
@@ -79,64 +81,36 @@ export default function PricingContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className={`rounded-3xl p-8 md:p-10 ${
+                className={`rounded-2xl p-8 md:p-10 ${
                   plan.highlighted
-                    ? "bg-slate-900 text-white ring-2 ring-pickle-green shadow-2xl shadow-pickle-green/10"
-                    : "bg-white border border-slate-200 shadow-sm"
+                    ? "bg-white ring-2 ring-pickle-green shadow-xl shadow-pickle-green/10"
+                    : "bg-white border border-gray-200"
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="inline-block bg-pickle-green text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+                  <span className="inline-block bg-pickle-green/10 text-pickle-green text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4 border border-pickle-green/20">
                     Most Popular
                   </span>
                 )}
-                <h3
-                  className={`font-heading text-2xl font-bold mb-1 ${
-                    plan.highlighted ? "text-white" : "text-slate-900"
-                  }`}
-                >
+                <h3 className="font-heading text-2xl font-bold text-text-primary mb-1">
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span
-                    className={`font-heading text-5xl font-extrabold ${
-                      plan.highlighted ? "text-white" : "text-slate-900"
-                    }`}
-                  >
+                  <span className="font-heading text-5xl font-extrabold text-text-primary">
                     {plan.price}
                   </span>
-                  <span
-                    className={
-                      plan.highlighted ? "text-slate-400" : "text-slate-500"
-                    }
-                  >
-                    {plan.period}
-                  </span>
+                  <span className="text-text-muted">{plan.period}</span>
                 </div>
-                <p
-                  className={`mb-8 ${
-                    plan.highlighted ? "text-slate-400" : "text-slate-500"
-                  }`}
-                >
-                  {plan.description}
-                </p>
+                <p className="mb-8 text-text-secondary">{plan.description}</p>
 
                 <ul className="space-y-3 mb-10">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check
                         size={18}
-                        className={`mt-0.5 shrink-0 ${
-                          plan.highlighted
-                            ? "text-pickle-green"
-                            : "text-pickle-green"
-                        }`}
+                        className="mt-0.5 shrink-0 text-pickle-green"
                       />
-                      <span
-                        className={`text-[15px] ${
-                          plan.highlighted ? "text-slate-300" : "text-slate-600"
-                        }`}
-                      >
+                      <span className="text-[15px] text-text-secondary">
                         {feature}
                       </span>
                     </li>
@@ -145,11 +119,15 @@ export default function PricingContent() {
 
                 <Link
                   href={plan.ctaHref}
-                  className={`block text-center font-bold py-3.5 rounded-full transition-all ${
+                  className={`block text-center font-bold py-3.5 rounded-xl transition-all ${
                     plan.highlighted
-                      ? "bg-pickle-green hover:bg-pickle-dark text-white shadow-lg shadow-pickle-green/25 hover:scale-105"
-                      : "bg-slate-900 hover:bg-slate-800 text-white hover:scale-105"
-                  } ${plan.cta === "Coming Soon" ? "opacity-60 pointer-events-none" : ""}`}
+                      ? "gradient-btn"
+                      : "bg-text-primary text-white hover:bg-gray-800 hover:scale-[1.02]"
+                  } ${
+                    plan.cta === "Coming Soon"
+                      ? "opacity-60 pointer-events-none"
+                      : ""
+                  }`}
                 >
                   {plan.cta}
                 </Link>
@@ -161,14 +139,23 @@ export default function PricingContent() {
 
       {/* FAQ */}
       <section className="section-padding bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-slate-900 text-center mb-12">
-            Frequently asked questions
-          </h2>
-          <div className="bg-surface-light rounded-2xl p-6 md:p-8">
-            {FAQ.map((item) => (
-              <FAQItem key={item.question} {...item} />
-            ))}
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="lg:w-5/12 lg:sticky lg:top-32 lg:self-start"
+            >
+              <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight">
+                Frequently asked questions
+              </h2>
+            </motion.div>
+            <div className="lg:w-7/12">
+              {FAQ.map((item) => (
+                <FAQItem key={item.question} {...item} />
+              ))}
+            </div>
           </div>
         </div>
       </section>

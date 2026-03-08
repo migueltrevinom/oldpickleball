@@ -5,18 +5,18 @@ import { PAIN_POINTS } from "@/lib/constants";
 
 export function PainPoints() {
   return (
-    <section className="section-padding bg-surface-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-padding bg-white">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
-          <p className="text-pickle-green font-mono text-sm tracking-widest uppercase mb-3">
+          <span className="badge-pill text-pickle-green border-pickle-green/20 bg-pickle-green/5 mb-4">
             Why players love us
-          </p>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">
+          </span>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold text-text-primary tracking-tight mt-4">
             Stop searching. Start playing.
           </h2>
         </motion.div>
@@ -29,13 +29,15 @@ export function PainPoints() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.15 }}
-              className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+              className="bg-warm-peach rounded-2xl p-8 hover:-translate-y-1 transition-all duration-300"
             >
-              <span className="text-4xl block mb-4">{point.icon}</span>
-              <h3 className="font-heading text-xl font-bold text-slate-900 mb-2">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-5">
+                <span className="text-2xl">{point.icon}</span>
+              </div>
+              <h3 className="font-heading text-xl font-bold text-text-primary mb-2">
                 {point.title}
               </h3>
-              <p className="text-slate-500 leading-relaxed">
+              <p className="text-text-secondary leading-[1.7]">
                 {point.description}
               </p>
             </motion.div>

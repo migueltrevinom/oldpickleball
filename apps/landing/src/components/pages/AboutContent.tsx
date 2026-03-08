@@ -28,20 +28,20 @@ export default function AboutContent() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-slate-950 to-court-blue">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      <section className="pt-32 pb-20 bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-pickle-green font-mono text-sm tracking-widest uppercase mb-4">
+            <span className="badge-pill text-pickle-green border-pickle-green/20 bg-pickle-green/5 mb-4">
               About Us
-            </p>
-            <h1 className="font-heading text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+            </span>
+            <h1 className="font-heading text-4xl md:text-6xl font-bold text-text-primary tracking-tight mb-6 mt-4">
               We&apos;re on a mission to fill every court
             </h1>
-            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+            <p className="text-text-secondary text-lg max-w-2xl mx-auto leading-relaxed">
               OldPickleball was born from a simple frustration: finding people
               to play with shouldn&apos;t be harder than the game itself.
             </p>
@@ -50,29 +50,29 @@ export default function AboutContent() {
       </section>
 
       {/* Story */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-warm-peach-light">
         <div className="max-w-3xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-heading text-3xl font-bold text-slate-900 mb-6">
+            <h2 className="font-heading text-3xl font-bold text-text-primary mb-6">
               The story
             </h2>
-            <div className="prose prose-lg prose-slate">
-              <p className="text-slate-600 leading-relaxed mb-4">
+            <div className="space-y-4">
+              <p className="text-text-secondary leading-[1.7]">
                 We were tired of scrolling through Facebook groups, managing
                 endless WhatsApp threads, and showing up to courts not knowing
                 if anyone else would be there. Sound familiar?
               </p>
-              <p className="text-slate-600 leading-relaxed mb-4">
+              <p className="text-text-secondary leading-[1.7]">
                 Pickleball is the fastest-growing sport in America, but the
                 infrastructure for finding games, matching by skill, and
                 organizing play is stuck in the stone age. We knew there had
                 to be a better way.
               </p>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-text-secondary leading-[1.7]">
                 So we built OldPickleball — a super app that makes it as easy
                 to find your next pickleball game as it is to order food or
                 book a ride. Real-time court finder, smart matching, RSVP
@@ -84,13 +84,13 @@ export default function AboutContent() {
       </section>
 
       {/* Values */}
-      <section className="section-padding bg-surface-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section-padding bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-heading text-3xl md:text-4xl font-bold text-slate-900 text-center mb-12"
+            className="font-heading text-3xl md:text-4xl font-bold text-text-primary text-center mb-16"
           >
             What we believe
           </motion.h2>
@@ -103,13 +103,15 @@ export default function AboutContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="text-center"
+                className="text-center bg-warm-peach rounded-2xl p-8"
               >
-                <span className="text-5xl block mb-4">{value.icon}</span>
-                <h3 className="font-heading text-xl font-bold text-slate-900 mb-2">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mx-auto mb-5">
+                  <span className="text-2xl">{value.icon}</span>
+                </div>
+                <h3 className="font-heading text-xl font-bold text-text-primary mb-2">
                   {value.title}
                 </h3>
-                <p className="text-slate-500 leading-relaxed">
+                <p className="text-text-secondary leading-[1.7]">
                   {value.description}
                 </p>
               </motion.div>
@@ -119,20 +121,21 @@ export default function AboutContent() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-white text-center">
+      <section className="py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-warm-peach text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-text-primary mb-4">
             Join the community
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-text-secondary mb-8">
             Be part of the movement that&apos;s making pickleball more accessible
             for everyone.
           </p>
           <Link
             href="/go-play"
-            className="inline-flex bg-pickle-green hover:bg-pickle-dark text-white font-bold text-lg px-8 py-4 rounded-full transition-all hover:scale-105 shadow-lg shadow-pickle-green/20"
+            className="gradient-btn inline-flex items-center gap-2 text-lg px-8 py-4 rounded-xl"
           >
             Go Play — It&apos;s Free
+            <span aria-hidden>→</span>
           </Link>
         </div>
       </section>
