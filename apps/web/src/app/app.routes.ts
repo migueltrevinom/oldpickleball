@@ -35,8 +35,29 @@ export const routes: Routes = [
       {
         path: 'courts',
         loadComponent: () =>
-          import('./features/dashboard/player-dashboard/player-dashboard.component').then(
-            (m) => m.PlayerDashboardComponent,
+          import('./features/courts/court-finder/court-finder.component').then(
+            (m) => m.CourtFinderComponent,
+          ),
+      },
+      {
+        path: 'courts/:id',
+        loadComponent: () =>
+          import('./features/courts/venue-detail/venue-detail.component').then(
+            (m) => m.VenueDetailComponent,
+          ),
+      },
+      {
+        path: 'courts/:venueId/book/:courtId',
+        loadComponent: () =>
+          import('./features/courts/booking-calendar/booking-calendar.component').then(
+            (m) => m.BookingCalendarComponent,
+          ),
+      },
+      {
+        path: 'bookings',
+        loadComponent: () =>
+          import('./features/bookings/my-bookings/my-bookings.component').then(
+            (m) => m.MyBookingsComponent,
           ),
       },
       {
@@ -76,6 +97,34 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./features/dashboard/court-admin-dashboard/court-admin-dashboard.component').then(
                 (m) => m.CourtAdminDashboardComponent,
+              ),
+          },
+          {
+            path: 'venues',
+            loadComponent: () =>
+              import('./features/court-admin/venues/venue-list/venue-list.component').then(
+                (m) => m.VenueListComponent,
+              ),
+          },
+          {
+            path: 'venues/new',
+            loadComponent: () =>
+              import('./features/court-admin/venues/venue-form/venue-form.component').then(
+                (m) => m.VenueFormComponent,
+              ),
+          },
+          {
+            path: 'venues/:id/edit',
+            loadComponent: () =>
+              import('./features/court-admin/venues/venue-form/venue-form.component').then(
+                (m) => m.VenueFormComponent,
+              ),
+          },
+          {
+            path: 'venues/:id',
+            loadComponent: () =>
+              import('./features/court-admin/venues/venue-manage/venue-manage.component').then(
+                (m) => m.VenueManageComponent,
               ),
           },
           {

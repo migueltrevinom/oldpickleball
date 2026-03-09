@@ -83,14 +83,16 @@ export class SidebarComponent {
 
   private playerNav: NavItem[] = [
     { label: 'Dashboard', path: '/dashboard', icon: '📊' },
-    { label: 'Courts', path: '/courts', icon: '🏟️' },
-    { label: 'Sessions', path: '/sessions', icon: '📅' },
+    { label: 'Courts', path: '/courts', icon: '📍' },
+    { label: 'Bookings', path: '/bookings', icon: '📅' },
+    { label: 'Sessions', path: '/sessions', icon: '🎾' },
     { label: 'Profile', path: '/profile', icon: '👤' },
     { label: 'Settings', path: '/settings', icon: '⚙️' },
   ];
 
   private courtAdminNav: NavItem[] = [
     { label: 'Dashboard', path: '/dashboard', icon: '📊' },
+    { label: 'My Venues', path: '/court/venues', icon: '🏢' },
     { label: 'Calendar', path: '/court/calendar', icon: '📅' },
     { label: 'My Courts', path: '/court/courts', icon: '🏟️' },
     { label: 'Sessions', path: '/court/sessions', icon: '🎾' },
