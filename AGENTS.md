@@ -42,3 +42,12 @@ When `MAILGUN_API_KEY` is empty (default), emails are not sent. To log in during
 sudo docker exec workspace-mongodb-1 mongosh --quiet --eval \
   'db.users.findOne({email: "EMAIL"}, {otp: 1}).otp.code' oldpickleball
 ```
+
+### Cloud VM gotchas
+
+- **Branch:** `main` only contains `README.md` and `LICENSE`. Check out `development` (or another app branch) before installing dependencies.
+- **Docker:** Not pre-installed on fresh cloud VMs. Start the daemon once per session before `docker compose up -d` (e.g. `sudo dockerd > /tmp/dockerd.log 2>&1 &`, then wait for `sudo docker info` to succeed). MongoDB container name follows the compose project directory (e.g. `workspace-mongodb-1` when run from `/workspace`).
+- **Angular CLI:** Set `NG_CLI_ANALYTICS=false` when running `ng serve` non-interactively; otherwise the analytics prompt blocks startup.
+- **API readiness:** There is no `/api/v1/health` route. Use `GET /api/v1/venues` (expect HTTP 200) to confirm the API is up.
+- **Lint:** Root `pnpm lint` currently fails on `apps/landing` (`next lint` mis-parses the project path on Next.js 16). Use `pnpm --filter @oldpickleball/api lint` for API linting until landing lint is fixed.
+- **First-time API config:** `apps/api/.env` is gitignored. Copy `.env.example` to `apps/api/.env` and ensure `PORT=3050` before starting the API.
