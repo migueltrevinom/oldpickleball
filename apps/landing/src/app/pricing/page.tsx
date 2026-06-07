@@ -1,9 +1,4 @@
-import dynamic from "next/dynamic";
-
-const PricingContent = dynamic(
-  () => import("@/components/pages/PricingContent"),
-  { ssr: false }
-);
+import PricingContent from "@/components/pages/PricingContent";
 
 export default function PricingPage() {
   return <PricingContent />;

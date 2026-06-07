@@ -64,7 +64,7 @@ export default function PricingContent() {
               No surprises.
             </h1>
             <p className="text-text-secondary text-lg">
-              Start free. Upgrade when you&apos;re ready.
+              Early access is free while the player network takes shape.
             </p>
           </motion.div>
         </div>
@@ -89,7 +89,7 @@ export default function PricingContent() {
               >
                 {plan.highlighted && (
                   <span className="inline-block bg-pickle-green/10 text-pickle-green text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4 border border-pickle-green/20">
-                    Most Popular
+                    Planned
                   </span>
                 )}
                 <h3 className="font-heading text-2xl font-bold text-text-primary mb-1">

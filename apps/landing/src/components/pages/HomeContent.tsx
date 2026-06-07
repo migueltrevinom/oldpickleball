@@ -2,7 +2,7 @@
 
 import { Hero } from "@/components/sections/Hero";
 import { PainPoints } from "@/components/sections/PainPoints";
-import { Metrics } from "@/components/sections/Metrics";
+import { LaunchProof } from "@/components/sections/Metrics";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { FeaturePreview } from "@/components/sections/FeaturePreview";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -14,7 +14,7 @@ export default function HomeContent() {
     <>
       <Hero />
       <PainPoints />
-      <Metrics />
+      <LaunchProof />
       <HowItWorks />
       <FeaturePreview />
       <Testimonials />

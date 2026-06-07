@@ -5,28 +5,48 @@ export const NAV_LINKS = [
   { label: "Pricing", href: "/pricing" },
 ] as const;
 
-export const METRICS = [
-  { value: 12400, suffix: "+", label: "Players Active" },
-  { value: 3200, suffix: "+", label: "Courts Listed" },
-  { value: 45000, suffix: "+", label: "Games Played" },
-  { value: 98, suffix: "%", label: "Show-Up Rate" },
+export const LAUNCH_PROOF = [
+  {
+    eyebrow: "Now forming",
+    title: "Founding player community",
+    description:
+      "Join the first group helping shape how local pickleball games get organized.",
+  },
+  {
+    eyebrow: "Free early access",
+    title: "No credit card. No password friction.",
+    description:
+      "Start with a simple player profile and help us build the play network from day one.",
+  },
+  {
+    eyebrow: "Player-first roadmap",
+    title: "Courts, RSVPs, waitlists, reminders",
+    description:
+      "The first version is focused on the boring coordination work that keeps games from happening.",
+  },
+  {
+    eyebrow: "Launching locally first",
+    title: "Built before the stats",
+    description:
+      "We are not showing fake numbers. Early players will help decide what matters before we scale.",
+  },
 ] as const;
 
 export const PAIN_POINTS = [
   {
     icon: "📍",
     title: "Find Courts Instantly",
-    description: "No more googling. See every court near you with real-time availability, surface type, and amenities.",
+    description: "No more scattered searches. Build a clean court map with locations, amenities, and play notes from people who actually go there.",
   },
   {
     icon: "🎯",
     title: "Join Games By Skill",
-    description: "Stop playing mismatched games. Filter by skill level and find players who match your intensity.",
+    description: "Stop guessing from group chats. Join sessions by skill level, format, and the kind of game you actually want.",
   },
   {
     icon: "🚫",
-    title: "No More No-Shows",
-    description: "RSVP system with automatic waitlists, reminders, and reliability scores. Games that actually happen.",
+    title: "Cut Down No-Shows",
+    description: "RSVPs, waitlists, reminders, and accountability tools designed to make planned games feel real.",
   },
 ] as const;
 
@@ -52,12 +72,12 @@ export const FEATURES = [
   {
     icon: "📍",
     title: "Real-Time Court Finder",
-    description: "Interactive map with filters for surface type, indoor/outdoor, lighting, skill level, and real-time availability. Community-verified accuracy.",
+    description: "Interactive map with filters for surface type, indoor/outdoor, lighting, and local play notes as the community grows.",
   },
   {
     icon: "🎯",
     title: "Smart Player Matching",
-    description: "Auto-match by skill rating, location, preferred format, and schedule. Find your perfect doubles partner or singles rival.",
+    description: "Match by skill rating, location, preferred format, and schedule so you can find better-fit games faster.",
   },
   {
     icon: "📋",
@@ -83,22 +103,19 @@ export const FEATURES = [
 
 export const TESTIMONIALS = [
   {
-    quote: "OldPickleball got me playing three times a week. I used to struggle finding games — now they find me.",
-    name: "Sarah K.",
-    location: "Philadelphia, PA",
-    skill: "3.5",
+    quote: "I just want to know where people are actually playing tonight.",
+    label: "Player problem",
+    detail: "Open play discovery",
   },
   {
-    quote: "The RSVP system is a game-changer. No more showing up to an empty court because everyone flaked.",
-    name: "Marcus T.",
-    location: "Cherry Hill, NJ",
-    skill: "4.0",
+    quote: "Group chats work until someone cancels and nobody knows who is next.",
+    label: "Player problem",
+    detail: "RSVP chaos",
   },
   {
-    quote: "I moved to a new city and found my pickleball community in one week. This app is essential.",
-    name: "Jennifer L.",
-    location: "Austin, TX",
-    skill: "3.0",
+    quote: "Open play schedules are scattered everywhere, and half of them are stale.",
+    label: "Player problem",
+    detail: "Court info",
   },
 ] as const;
 
@@ -109,12 +126,12 @@ export const PRICING_PLANS = [
     period: "forever",
     description: "Everything you need to start playing.",
     features: [
-      "Find courts near you",
-      "Join sessions & RSVP",
+      "Founding player access",
+      "Court discovery as it launches",
+      "Session RSVP and waitlist tools",
       "Group chat per session",
-      "Player ratings & profiles",
-      "Push notifications",
-      "Unlimited games",
+      "Player profiles",
+      "Early feedback channel",
     ],
     cta: "Go Play",
     ctaHref: "/go-play",
@@ -122,16 +139,16 @@ export const PRICING_PLANS = [
   },
   {
     name: "Pro",
-    price: "$9.99",
-    period: "/ month",
-    description: "For dedicated players who want more.",
+    price: "Later",
+    period: "",
+    description: "Planned tools for dedicated players once the free network is useful.",
     features: [
       "Everything in Free, plus:",
-      "Priority matchmaking",
-      "Advanced performance stats",
-      "Ad-free experience",
-      "Pro player badge",
-      "Early access to features",
+      "Priority feature requests",
+      "Advanced player tools",
+      "Organizer controls",
+      "Deeper game history",
+      "Built after player feedback",
     ],
     cta: "Coming Soon",
     ctaHref: "#",
@@ -142,7 +159,7 @@ export const PRICING_PLANS = [
 export const FAQ = [
   {
     question: "Is OldPickleball really free?",
-    answer: "Yes! The core features — finding courts, joining games, RSVP, chat, and ratings — are completely free. We offer a Pro plan for advanced features, but you can play forever without paying.",
+    answer: "Yes. Early access is free for founding players. The goal is to make the core loop - finding courts, joining games, RSVPs, and chat - useful before introducing paid extras.",
   },
   {
     question: "Do I need to download an app?",
@@ -150,7 +167,7 @@ export const FAQ = [
   },
   {
     question: "How does skill matching work?",
-    answer: "You set your self-rated skill level (1.0–5.5 scale) during signup. Sessions have skill ranges, so you'll only see games that match your level. We also support DUPR rating integration.",
+    answer: "You set your self-rated skill level during signup. Sessions can use skill ranges so players can find games that match their level. Deeper rating integrations can come later if players ask for them.",
   },
   {
     question: "What if I need to cancel my RSVP?",

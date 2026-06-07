@@ -10,13 +10,15 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/50 bg-[#fffdf6]/85 backdrop-blur-xl">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-[72px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="text-2xl">🏓</span>
-              <span className="font-heading font-bold text-xl tracking-tight text-text-primary">
+            <Link href="/" className="flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-pop-lime text-xl shadow-[0_10px_24px_rgba(217,255,67,0.35)]">
+                🏓
+              </span>
+              <span className="font-heading font-extrabold text-xl tracking-tight text-text-primary">
                 OldPickleball
               </span>
             </Link>
@@ -27,7 +29,7 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
+                  className="rounded-full px-3 py-2 text-sm font-semibold text-text-secondary transition-colors hover:bg-white hover:text-text-primary"
                 >
                   {link.label}
                 </Link>
@@ -38,9 +40,9 @@ export function Navbar() {
             <div className="flex items-center gap-3">
               <Link
                 href="/go-play"
-                className="gradient-btn text-sm px-5 py-2.5 rounded-xl"
+                className="gradient-btn text-sm px-5 py-2.5 rounded-full"
               >
-                Go Play
+                Join Early
               </Link>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -55,7 +57,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-white pt-20 px-6 md:hidden">
+        <div className="fixed inset-0 z-40 bg-[#fffdf6] pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6 pt-6">
             {NAV_LINKS.map((link) => (
               <Link
@@ -70,9 +72,9 @@ export function Navbar() {
             <Link
               href="/go-play"
               onClick={() => setMobileOpen(false)}
-              className="gradient-btn text-center py-3 rounded-xl mt-4"
+              className="gradient-btn text-center py-3 rounded-2xl mt-4"
             >
-              Go Play — It&apos;s Free
+              Join Early Access
             </Link>
           </div>
         </div>

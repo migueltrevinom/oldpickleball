@@ -3,12 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-white text-text-primary antialiased;
+    @apply bg-[#fffdf6] text-text-primary antialiased;
+    background-image:
+      radial-gradient(circle at 12% 12%, rgba(217, 255, 67, 0.22), transparent 24rem),
+      radial-gradient(circle at 90% 8%, rgba(86, 241, 255, 0.2), transparent 22rem),
+      radial-gradient(circle at 70% 80%, rgba(255, 92, 170, 0.12), transparent 26rem);
   }
 
   ::selection {
@@ -18,11 +32,11 @@
 
 @layer components {
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-pickle-green to-emerald-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-pickle-green via-pop-aqua to-pop-purple;
   }
 
   .gradient-btn {
-    @apply bg-gradient-to-r from-pickle-green to-emerald-500 text-white font-semibold rounded-xl shadow-md shadow-pickle-green/20 transition-all hover:shadow-lg hover:shadow-pickle-green/30 hover:scale-[1.02];
+    @apply bg-gradient-to-r from-pickle-green via-emerald-400 to-pop-aqua text-pop-ink font-bold rounded-2xl shadow-[0_16px_40px_rgba(34,197,94,0.28)] transition-all hover:shadow-[0_20px_54px_rgba(86,241,255,0.34)] hover:scale-[1.02];
   }
 
   .section-padding {
@@ -30,6 +44,18 @@
   }
 
   .badge-pill {
-    @apply inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border;
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] border;
+  }
+
+  .court-grid {
+    background-image:
+      linear-gradient(rgba(16, 24, 40, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16, 24, 40, 0.08) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+
+  .noise-overlay {
+    background-image: radial-gradient(rgba(16, 24, 40, 0.12) 0.7px, transparent 0.7px);
+    background-size: 6px 6px;
   }
 }

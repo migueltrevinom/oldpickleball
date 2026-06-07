@@ -14,12 +14,13 @@ interface BallProps {
 
 export function Ball({ startPos, endPos, arcHeight, duration, delay }: BallProps) {
   const meshRef = useRef<Mesh>(null);
+  const elapsedRef = useRef(0);
   const totalCycle = duration + 0.6; // animation + pause
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!meshRef.current) return;
-    const elapsed = clock.getElapsedTime();
-    const cycleTime = (elapsed - delay + totalCycle * 100) % totalCycle;
+    elapsedRef.current += delta;
+    const cycleTime = (elapsedRef.current - delay + totalCycle * 100) % totalCycle;
     const t = Math.min(cycleTime / duration, 1);
 
     const x = startPos[0] + (endPos[0] - startPos[0]) * t;

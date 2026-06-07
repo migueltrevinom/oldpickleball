@@ -1,9 +1,4 @@
-import dynamic from "next/dynamic";
-
-const FeaturesContent = dynamic(
-  () => import("@/components/pages/FeaturesContent"),
-  { ssr: false }
-);
+import FeaturesContent from "@/components/pages/FeaturesContent";
 
 export default function FeaturesPage() {
   return <FeaturesContent />;

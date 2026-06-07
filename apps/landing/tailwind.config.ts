@@ -21,6 +21,14 @@ const config: Config = {
         ball: {
           yellow: "#facc15",
         },
+        pop: {
+          lime: "#D9FF43",
+          aqua: "#56F1FF",
+          orange: "#FF8A3D",
+          pink: "#FF5CAA",
+          purple: "#7857FF",
+          ink: "#101828",
+        },
         dark: "#0a0f1a",
         surface: {
           DEFAULT: "#ffffff",

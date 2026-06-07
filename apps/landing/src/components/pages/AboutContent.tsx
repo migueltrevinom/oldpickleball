@@ -39,7 +39,7 @@ export default function AboutContent() {
               About Us
             </span>
             <h1 className="font-heading text-4xl md:text-6xl font-bold text-text-primary tracking-tight mb-6 mt-4">
-              We&apos;re on a mission to fill every court
+              We&apos;re building the player network first
             </h1>
             <p className="text-text-secondary text-lg max-w-2xl mx-auto leading-relaxed">
               OldPickleball was born from a simple frustration: finding people
@@ -73,10 +73,9 @@ export default function AboutContent() {
                 to be a better way.
               </p>
               <p className="text-text-secondary leading-[1.7]">
-                So we built OldPickleball — a super app that makes it as easy
-                to find your next pickleball game as it is to order food or
-                book a ride. Real-time court finder, smart matching, RSVP
-                with waitlists, group chat, and a community that shows up.
+                So we&apos;re building OldPickleball: a simpler way to find your
+                next pickleball game, starting with court discovery, player
+                matching, RSVPs, waitlists, and session chat.
               </p>
             </div>
           </motion.div>
