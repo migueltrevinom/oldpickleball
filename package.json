@@ -19,7 +19,12 @@
     "pnpm": ">=9.0.0"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"],
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "nice-napi",
+      "sharp",
+      "unrs-resolver"
+    ],
     "overrides": {
       "is-generator-function": "1.0.10"
     }

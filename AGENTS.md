@@ -10,7 +10,7 @@ Monorepo managed with **pnpm workspaces** (`pnpm-workspace.yaml` includes `apps/
 |---|---|---|---|
 | API (Koa.js) | `apps/api` | `pnpm dev:api` | 3050 |
 | Web (Angular 17) | `apps/web` | `cd apps/web && npx ng serve` | 4200 |
-| Landing (Next.js 14) | `apps/landing` | `pnpm dev:landing` | 3000 |
+| Landing (Next.js 14) | `apps/landing` | `pnpm dev:landing` | 3010 |
 
 ### Prerequisites
 
